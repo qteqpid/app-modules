@@ -6,9 +6,14 @@
 
 ```
 ├── README.md
-└── inAppPurchase/          # 应用内购模块
-    ├── InAppPurchaseManager.swift
-    └── PurchaseView.swift
+├── inAppPurchase/          # 应用内购模块
+│   ├── InAppPurchaseManager.swift
+│   └── PurchaseView.swift
+└── settingsView/           # 设置页面模块
+    ├── AppConfigs.swift
+    ├── SettingsAppListView.swift
+    ├── SettingsRow.swift
+    └── SettingsView.swift
 ```
 
 ## 当前模块
@@ -67,12 +72,76 @@ if purchaseManager.isPremium {
 purchaseManager.increaseUseTimes()
 ```
 
+### 2. 设置页面模块 (settingsView)
+
+一个完整的iOS应用设置页面解决方案，提供了可复用的设置组件和布局。
+
+#### 功能特点：
+- ✅ **完整的设置页面结构**：包含分组、行项目、图标等
+- ✅ **可复用的设置行组件**：多种样式的设置行满足不同需求
+- ✅ **应用内链接跳转**：支持打开URL、App Store等
+- ✅ **响应式布局**：适配不同屏幕尺寸
+- ✅ **自定义背景颜色**：支持主题定制
+- ✅ **可扩展的架构**：易于添加新的设置项
+
+#### 主要组件：
+1. **AppConfigs**：应用配置管理类
+   - 提供应用版本、背景颜色等全局配置
+   - 处理URL打开和App Store链接生成
+   - 图片资源加载功能
+
+2. **SettingsView**：设置页面主视图
+   - 完整的设置页面布局
+   - 支持分组和自定义标题
+   - 集成联系我们、评分等常见功能
+
+3. **SettingsRow**：可复用的设置行组件
+   - 支持多种样式：基本行、带标签、带文本、带箭头等
+   - 灵活的自定义内容支持
+   - 导航目标和点击事件支持
+
+4. **SettingsAppListView**：应用列表视图
+   - 展示其他应用的列表
+   - 支持点击跳转到App Store
+   - 响应式布局设计
+
+#### 使用示例：
+
+```swift
+// 显示设置页面
+let settingsView = SettingsView()
+
+// 使用自定义背景颜色
+let backgroundColor = Color(red: 51/255, green: 51/255, blue: 51/255)
+
+// 创建设置行
+let simpleRow = SimpleSettingsRow(iconName: "star", title: "给我们评分")
+    .onTapGesture {
+        AppConfigs.openUrl(url: "itms-apps://itunes.apple.com/app/id1234567890?action=write-review")
+    }
+
+// 创建带导航的设置行
+let navigableRow = SimpleSettingsRow(
+    iconName: "iphone", 
+    title: "更多应用", 
+    destination: AnyView(AppListView(backgroundColor: backgroundColor))
+)
+
+// 打开URL
+AppConfigs.openUrl(url: "https://example.com")
+
+// 获取应用版本
+let version = AppConfigs.appVersion
+```
+
 ## 未来规划
 
 - [ ] 添加更多实用模块
 - [ ] 完善文档和使用示例
 - [ ] 支持更多平台
 - [ ] 增加单元测试
+- [ ] 添加主题切换功能
+- [ ] 支持多语言设置
 
 ## 贡献
 
